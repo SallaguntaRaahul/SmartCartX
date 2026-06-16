@@ -1,0 +1,14 @@
+apiVersion: v2
+name: smartcartx
+description: SmartCartX E-Commerce Backend Helm Chart
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+keywords:
+  - ecommerce
+  - spring-boot
+  - kafka
+  - redis
+maintainers:
+  - name: Raahul Sallagunta
+    email: sallaguntaraahul@gmail.com

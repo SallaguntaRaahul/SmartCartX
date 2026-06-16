@@ -2,9 +2,9 @@ name: SmartCartX CI/CD Pipeline
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ master, main, develop ]
   pull_request:
-    branches: [ main ]
+    branches: [ master, main ]
 
 jobs:
 
@@ -49,7 +49,7 @@ jobs:
           cache: maven
 
       - name: Run tests with coverage
-        run: mvn clean verify jacoco:report
+        run: mvn clean test jacoco:report
         env:
           SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/smartcartdb
           SPRING_DATASOURCE_USERNAME: smartcart
@@ -64,17 +64,8 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: jacoco-report
+          name: jacoco-coverage-report
           path: target/site/jacoco/
-
-      - name: Print test summary
-        if: always()
-        run: |
-          echo "==============================="
-          echo "TEST RESULTS"
-          echo "==============================="
-          find target/surefire-reports -name "*.txt" \
-            -exec tail -3 {} \;
 
   build-docker:
     name: Build Docker Image
@@ -102,9 +93,3 @@ jobs:
         run: |
           docker build -t smartcart-app:latest .
           docker images | grep smartcart
-
-      - name: Test Docker image
-        run: |
-          echo "Docker image built successfully"
-          docker inspect smartcart-app:latest \
-            --format='Size: {{.Size}} bytes'

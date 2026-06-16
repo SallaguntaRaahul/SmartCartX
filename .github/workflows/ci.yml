@@ -57,6 +57,7 @@ jobs:
           SPRING_DATA_REDIS_HOST: localhost
           SPRING_DATA_REDIS_PORT: 6379
           SPRING_KAFKA_BOOTSTRAP_SERVERS: localhost:9092
+          SPRING_KAFKA_PROPERTIES_SECURITY_PROTOCOL: PLAINTEXT
           JWT_SECRET: smartcartSecretKey2024VeryLongSecretKeyForHMACSHA256Algorithm
           JWT_EXPIRATION: 86400000
 

@@ -49,7 +49,7 @@ jobs:
           cache: maven
 
       - name: Run tests with coverage
-        run: mvn clean test jacoco:report
+        run: mvn clean test jacoco:report -e
         env:
           SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/smartcartdb
           SPRING_DATASOURCE_USERNAME: smartcart
@@ -91,6 +91,4 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Build Docker image
-        run: |
-          docker build -t smartcart-app:latest .
-          docker images | grep smartcart
+        run: docker build -t smartcart-app:latest . && docker images | grep smartcart

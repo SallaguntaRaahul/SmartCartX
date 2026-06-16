@@ -20,7 +20,7 @@ public class OrderEventProducer {
         log.info(">>> Publishing ORDER_PLACED event for order: {}",
                 event.getOrderId());
 
-        CompletableFuture<SendResult<String, OrderEvent>> future =
+        CompletableFuture<SendResult<String, Object>> future =
                 kafkaTemplate.send(
                         KafkaConfig.ORDER_PLACED_TOPIC,
                         event.getOrderId().toString(),

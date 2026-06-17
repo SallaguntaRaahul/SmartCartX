@@ -16,6 +16,8 @@ spec:
       labels:
         app: {{ .Release.Name }}
     spec:
+      imagePullSecrets:
+        - name: acr-secret
       containers:
         - name: smartcart-app
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}

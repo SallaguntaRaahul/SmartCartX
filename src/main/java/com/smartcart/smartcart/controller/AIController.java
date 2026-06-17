@@ -55,10 +55,30 @@ public class AIController {
 
         CartDTO cart = cartService.getCart(email);
 
-        String cartItems = cart.getItems().stream()
+        String contextItems = cart.getItems().stream()
                 .map(item -> item.getProductName()
                         + " - $" + item.getProductPrice())
                 .collect(Collectors.joining(", "));
+
+        String contextSource = "cart";
+
+        if (contextItems.isBlank()) {
+            Page<OrderDTO> recentOrders = orderService
+                    .getMyOrders(email, 0, 1);
+
+            if (!recentOrders.isEmpty()) {
+                OrderDTO lastOrder = recentOrders
+                        .getContent().get(0);
+                contextItems = lastOrder.getItems().stream()
+                        .map(item -> item.getProductName()
+                                + " - $" + item.getPriceAtPurchase())
+                        .collect(Collectors.joining(", "));
+                contextSource = "recent order #"
+                        + lastOrder.getId();
+            } else {
+                contextSource = "none";
+            }
+        }
 
         Page<ProductDTO> products = productService
                 .getAllProducts(0, 10, "id");
@@ -70,12 +90,24 @@ public class AIController {
                         + " - " + p.getCategory())
                 .collect(Collectors.joining("\n"));
 
+        Map<String, String> response = new HashMap<>();
+
+        if (contextSource.equals("none")) {
+            response.put("cartItems", "");
+            response.put("contextSource", "none");
+            response.put("recommendations",
+                    "No cart items or order history found yet. "
+                    + "Add items to your cart or place an order "
+                    + "to get personalized recommendations.");
+            return ResponseEntity.ok(response);
+        }
+
         String recommendations = aiService
                 .getProductRecommendations(
-                        cartItems, availableProducts);
+                        contextItems, availableProducts);
 
-        Map<String, String> response = new HashMap<>();
-        response.put("cartItems", cartItems);
+        response.put("cartItems", contextItems);
+        response.put("contextSource", contextSource);
         response.put("recommendations", recommendations);
         return ResponseEntity.ok(response);
     }

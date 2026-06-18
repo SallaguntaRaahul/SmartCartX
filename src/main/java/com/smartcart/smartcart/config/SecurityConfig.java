@@ -45,7 +45,23 @@ public class SecurityConfig {
                                 "/api/products/**",
                                 "/api/cart/**",
                                 "/api/orders/**",
-                                "/api/users/**"
+                                "/api/users/**",
+                                "/",
+                                "/index.html",
+                                "/assets/**",
+                                "/favicon.svg",
+                                "/icons.svg",
+                                "/*.js",
+                                "/*.css",
+                                "/products",
+                                "/products/**",
+                                "/cart",
+                                "/orders",
+                                "/orders/**",
+                                "/login",
+                                "/register",
+                                "/recommendations",
+                                "/profile"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

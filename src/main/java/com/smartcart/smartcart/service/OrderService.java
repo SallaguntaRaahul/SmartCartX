@@ -194,6 +194,7 @@ public class OrderService {
                         .id(item.getId())
                         .productId(item.getProduct().getId())
                         .productName(item.getProduct().getName())
+                        .category(item.getProduct().getCategory())
                         .quantity(item.getQuantity())
                         .priceAtPurchase(item.getPriceAtPurchase())
                         .subtotal(item.getPriceAtPurchase()

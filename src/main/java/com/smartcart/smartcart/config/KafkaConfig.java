@@ -45,7 +45,6 @@ public class KafkaConfig {
                 StringSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
                 JsonSerializer.class);
-        props.put(JsonSerializer.ADD_TYPE_INFO_HEADERS, false);
 
         if (!securityProtocol.equals("PLAINTEXT")) {
             props.put("security.protocol", securityProtocol);

@@ -125,9 +125,14 @@ public class AIService {
 
         String prompt = String.format(
                 "You are a product recommendation AI for SmartCartX. " +
-                "Based on the customer cart: %s, " +
-                "suggest 2-3 products from: %s. " +
-                "Respond in 2-3 natural sentences.",
+                "Based on the customer context: %s, " +
+                "recommend exactly 3 products from this list " +
+                "(format: ID | Name | Price | Category):\n%s\n\n" +
+                "Respond ONLY with valid JSON, no other text, " +
+                "in this exact format: " +
+                "{\"reason\": \"one or two sentence " +
+                "explanation of why these were picked\", " +
+                "\"productIds\": [id1, id2, id3]}",
                 cartItems,
                 availableProducts);
 
